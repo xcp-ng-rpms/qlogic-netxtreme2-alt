@@ -6,8 +6,6 @@
 %define kernel_version %(uname -r)
 %endif
 
-%define module_dir extra
-
 %if %undefined modules_suffix
 %define modules_suffix modules
 %endif
@@ -26,8 +24,9 @@ Group: System Environment/Kernel
 Requires: %{name}-%{modules_package} = %{version}-%{release}
 #Source taken from http://ldriver.qlogic.com/driver-srpms/netxtreme2/netxtreme2-7.14.46-1.rhel7u2.src.rpm
 Source: %{name_orig}-%{version}.tar.gz
+Patch0: 0001-install-into-versioned-dir.patch 
 
-Provides: %{name_orig}
+%define module_dir updates/xcp-ng/%{driver_name}-%{version}
 
 %description
 This package contains the Qlogic NetXtreme II iSCSI (bnx2i), 1-Gigabit (bnx2) and 10-Gigabit (bnx2x) ethernet drivers.
@@ -82,11 +81,17 @@ version %{kernel_version}.
 
 %files %{modules_package}
 %config(noreplace) %{_sysconfdir}/modprobe.d/*.conf
-/lib/modules/%{kernel_version}/*/*.ko
+/lib/modules/%{kernel_version}/%{module_dir}/*.ko
 %exclude /etc/depmod.d/bnx2x.conf
 %exclude %{_mandir}/man4/*
 
 %changelog
+* Mon Oct 22 2018 Rushikesh Jadhav <rushikesh7@gmail.com> - 7.14.46.1-1
+- Changed module_dir to updates/xcp-ng/%{driver_name}-%{version}
+- The driver is now installed at a dedicated dir /lib/modules/%{kernel_version}/%{module_dir}
+- Introduced Patch0 to correct installation location in bnx2fc
+- Removed Provides
+
 * Fri Oct 19 2018 Rushikesh Jadhav <rushikesh7@gmail.com> - 7.14.46.1-1
 - Updated the driver to latest version 7.14.46.1 and changed its name to qlogic-netxtreme2-alt
 - The driver is now installed at /lib/modules/%{kernel_version}/extra
