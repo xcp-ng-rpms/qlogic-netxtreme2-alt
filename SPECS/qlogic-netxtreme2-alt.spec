@@ -24,7 +24,9 @@ Group: System Environment/Kernel
 Requires: %{name}-%{modules_package} = %{version}-%{release}
 #Source taken from http://ldriver.qlogic.com/driver-srpms/netxtreme2/netxtreme2-7.14.46-1.rhel7u2.src.rpm
 Source: %{name_orig}-%{version}.tar.gz
-Patch0: 0001-install-into-versioned-dir.patch 
+
+# XCP-ng patches
+Patch1000: qlogic-netxtreme2-7.14.46-install-into-dedicated-dir.XCP-ng.patch 
 
 %define module_dir updates/xcp-ng/%{driver_name}-%{version}
 
@@ -89,7 +91,7 @@ version %{kernel_version}.
 * Mon Oct 22 2018 Rushikesh Jadhav <rushikesh7@gmail.com> - 7.14.46.1-1
 - Changed module_dir to updates/xcp-ng/%{driver_name}-%{version}
 - The driver is now installed at a dedicated dir /lib/modules/%{kernel_version}/%{module_dir}
-- Introduced Patch0 to correct installation location in bnx2fc
+- Introduced Patch1000 to correct installation location in bnx2fc
 - Removed Provides
 
 * Fri Oct 19 2018 Rushikesh Jadhav <rushikesh7@gmail.com> - 7.14.46.1-1
