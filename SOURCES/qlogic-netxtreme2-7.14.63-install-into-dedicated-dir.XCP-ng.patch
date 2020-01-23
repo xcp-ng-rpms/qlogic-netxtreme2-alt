@@ -1,8 +1,9 @@
-diff --git a/bnx2fc-2.12.2/driver/Makefile b/bnx2fc-2.12.2/driver/Makefile
+The hardcoded destination dir needs to be fixed for bnx2fc
+
 index f878fab..a2acd8c 100644
---- a/bnx2fc-2.12.2/driver/Makefile
-+++ b/bnx2fc-2.12.2/driver/Makefile
-@@ -251,11 +251,6 @@ bnx2fc_pfc:
+--- a/bnx2fc-2.12.10/driver/Makefile
++++ b/bnx2fc-2.12.10/driver/Makefile
+@@ -251,11 +251,7 @@ bnx2fc_pfc:
  
  bnx2fc_install:
  	mkdir -p $(PREFIX)/lib/modules/$(KVER)/kernel/drivers/scsi;
@@ -11,6 +12,7 @@ index f878fab..a2acd8c 100644
 -else
 -	install -m 444 $(BCM_DRV) $(PREFIX)/lib/modules/$(KVER)/updates;
 -endif
- 	@if [ "$(PREFIX)" = "" ]; then /sbin/depmod -a ;\
++	install -m 444 $(BCM_DRV) $(PREFIX)/lib/modules/$(KVER)/override;
+	@if [ "$(PREFIX)" = "" ]; then /sbin/depmod -a ;\
  	else echo " *** Run '/sbin/depmod -a' to update the module database.";\
  	fi
