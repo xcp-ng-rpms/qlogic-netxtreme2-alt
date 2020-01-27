@@ -17,6 +17,10 @@
 
 %define name_orig %{vendor_label}-%{driver_name}
 
+# We need this short version without any "+..." part
+# because override statements in /etc/depmod.d don't work with e.g. 4.4.0+10
+%define kernel_version_short %(echo %kernel_version | sed 's/\+.*//')
+
 Summary: Qlogic NetXtreme II iSCSI, 1-Gigabit and 10-Gigabit ethernet drivers
 Name: %{name_orig}-alt
 Version: 7.14.63
@@ -52,6 +56,12 @@ echo 'options bnx2x num_vfs=0' > %{name_orig}.conf
 
 # mark modules executable so that strip-to-file can strip them
 find %{buildroot}/lib/modules/%{kernel_version} -name "*.ko" -type f | xargs chmod u+wx
+
+# override depmod configuration to give priority to our alternative driver
+mkdir -p %{buildroot}/etc/depmod.d
+for m in bnx2 bnx2fc bnx2i bnx2x cnic; do
+    echo "override $m %{kernel_version_short} %{module_dir}" > %{buildroot}/etc/depmod.d/$m-%{kernel_version_short}.conf
+done
 
 %clean
 rm -rf %{buildroot}
@@ -90,8 +100,17 @@ version %{kernel_version}.
 /lib/modules/%{kernel_version}/*/*.ko
 %exclude /etc/depmod.d/bnx2x.conf
 %exclude %{_mandir}/man4/*
+/etc/depmod.d/bnx2-%{kernel_version_short}.conf
+/etc/depmod.d/bnx2fc-%{kernel_version_short}.conf
+/etc/depmod.d/bnx2i-%{kernel_version_short}.conf
+/etc/depmod.d/bnx2x-%{kernel_version_short}.conf
+/etc/depmod.d/cnic-%{kernel_version_short}.conf
 
 %changelog
+* Mon Jan 27 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 7.14.63-1
+- Update to 7.14.63
+- Add specific depmod configuration for XCP-ng 7.6
+
 * Tue Dec 20 2018 Deli Zhang <deli.zhang@citrix.com> - 7.14.53-1
 - CP-30078: Upgrade netXtreme2 driver to version 7.14.53
 
