@@ -1,0 +1,21 @@
+See https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/drivers/net/ethernet/broadcom/bnx2x?h=linux-4.19.y&id=6384c67c64b59fb0a3e0b414a9171ec8147eaae1
+
+Broadcom did not apply the kernel patch as is, for some reason.
+
+We have seen that it still fails on some hardware whereas the patch linked above doesn't.
+
+Thus add the missing 'x' to CHIP_IS_E1[x]
+
+Index: netxtreme2-7.14.63/bnx2x/src/bnx2x_main.c
+===================================================================
+--- netxtreme2-7.14.63/bnx2x/src/bnx2x_main.c
++++ netxtreme2-7.14.63/bnx2x/src/bnx2x_main.c	2020-02-12 14:43:58.156070111 +0100
+@@ -10624,7 +10624,7 @@
+ 			  rc);
+ 
+ 	/* Remove all currently configured VLANs */
+-	if (!CHIP_IS_E1(bp)) {
++	if (!CHIP_IS_E1x(bp)) {
+ 		rc = bnx2x_del_all_vlans(bp);
+ 		if (rc < 0)
+ 			BNX2X_ERR("Failed to delete all VLANs\n");
