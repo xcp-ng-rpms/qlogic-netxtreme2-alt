@@ -20,7 +20,7 @@
 Summary: Qlogic NetXtreme II iSCSI, 1-Gigabit and 10-Gigabit ethernet drivers
 Name: %{name_orig}-alt
 Version: 7.14.63
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPL
 Group: System Environment/Kernel
 Requires: %{name}-%{modules_package} = %{version}-%{release}
@@ -93,6 +93,9 @@ version %{kernel_version}.
 %exclude %{_mandir}/man4/*
 
 %changelog
+* Wed Aug 19 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 7.14.63-3
+- Rebuild for XCP-ng 8.2
+
 * Wed Feb 12 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 7.14.63-2
 - Version 7.14.63
 - Add qlogic-netxtreme2-Fix-NULL-pointer-dereference-in-bnx2x_del_all_vlans.backport.patch
