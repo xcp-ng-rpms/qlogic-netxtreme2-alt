@@ -1,8 +1,5 @@
-The hardcoded destination dir needs to be fixed for bnx2fc
-
-index f878fab..a2acd8c 100644
---- a/bnx2fc-2.12.10/driver/Makefile
-+++ b/bnx2fc-2.12.10/driver/Makefile
+--- a/bnx2fc/driver/Makefile
++++ b/bnx2fc/driver/Makefile
 @@ -251,11 +251,7 @@ bnx2fc_pfc:
  
  bnx2fc_install:
