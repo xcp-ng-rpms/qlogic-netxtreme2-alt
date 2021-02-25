@@ -19,7 +19,7 @@
 
 Summary: Qlogic NetXtreme II iSCSI, 1-Gigabit and 10-Gigabit ethernet drivers
 Name: %{name_orig}-alt
-Version: 7.14.69
+Version: 7.14.76
 Release: 1%{?dist}
 License: GPL
 Group: System Environment/Kernel
@@ -93,6 +93,9 @@ version %{kernel_version}.
 %exclude %{_mandir}/man4/*
 
 %changelog
+* Thu Feb 25 2021 Samuel Verschelde <stormi-xcp@ylix.fr> - 7.14.76-1
+- Updated to version 7.14.76
+
 * Tue Sep 08 2020 Rushikesh Jadhav <rushikesh7@gmail.com> - 7.14.69-1
 - Updated to version 7.14.69
 
