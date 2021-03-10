@@ -12,7 +12,6 @@
 %define modules_suffix modules
 %endif
 
-%define modules_package %{kernel_version}-%{modules_suffix}
 %define build_defs BNX2FC_KERNEL_OVERRIDE=1 BNX2FC_SUP=-DXENSERVER DISTRO=Citrix
 
 %define name_orig %{vendor_label}-%{driver_name}
@@ -20,11 +19,22 @@
 Summary: Qlogic NetXtreme II iSCSI, 1-Gigabit and 10-Gigabit ethernet drivers
 Name: %{name_orig}-alt
 Version: 7.14.76
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPL
 Group: System Environment/Kernel
-Requires: %{name}-%{modules_package} = %{version}-%{release}
-#Source taken from http://ldriver.qlogic.com/driver-srpms/netxtreme2/netxtreme2-7.14.69-1.rhel7u7.src.rpm
+BuildRequires: kernel-devel, git
+BuildRequires: gcc
+BuildRequires: kernel-devel
+BuildRequires: bc
+Provides: vendor-driver
+Requires: kernel-uname-r = %{kernel_version}
+Requires(post): /usr/sbin/depmod
+Requires(postun): /usr/sbin/depmod
+
+# Obsolete the old module subpackage
+Obsoletes: qlogic-netxtreme2-alt-4.19.0+1-modules
+
+#Source taken from a SRPM at http://ldriver.qlogic.com/driver-srpms/netxtreme2/
 Source: %{driver_name}-%{version}.tar.gz
 
 # XCP-ng patches
@@ -41,8 +51,6 @@ This package contains the Qlogic NetXtreme II iSCSI (bnx2i), 1-Gigabit (bnx2) an
 %{?cov_wrap} %{__make} KVER=%{kernel_version} %{build_defs}
 
 %install
-rm -rf %{buildroot}
-
 %{__install} -d %{buildroot}%{_sysconfdir}/modprobe.d
 echo 'options bnx2x num_vfs=0' > %{name_orig}.conf
 %{__install} %{name_orig}.conf %{buildroot}%{_sysconfdir}/modprobe.d
@@ -53,45 +61,28 @@ echo 'options bnx2x num_vfs=0' > %{name_orig}.conf
 # mark modules executable so that strip-to-file can strip them
 find %{buildroot}/lib/modules/%{kernel_version} -name "*.ko" -type f | xargs chmod u+wx
 
-%clean
-rm -rf %{buildroot}
-
-%files
-
-%package %{modules_package}
-Summary: %{vendor_name} %{driver_name} device drivers
-Group: System Environment/Kernel
-BuildRequires: kernel-devel, bc, git
-BuildRequires: gcc
-BuildRequires: kernel-devel
-BuildRequires: bc
-Provides: vendor-driver
-Requires: kernel-uname-r = %{kernel_version}
-Requires(post): /usr/sbin/depmod
-Requires(postun): /usr/sbin/depmod
-
-%description %{modules_package}
-%{vendor_name} %{driver_name} device drivers for the Linux Kernel
-version %{kernel_version}.
-
-%post %{modules_package}
+%post
 /sbin/depmod %{kernel_version}
 %{regenerate_initrd_post}
 
-%postun %{modules_package}
+%postun
 /sbin/depmod %{kernel_version}
 %{regenerate_initrd_postun}
 
-%posttrans %{modules_package}
+%posttrans
 %{regenerate_initrd_posttrans}
 
-%files %{modules_package}
+%files
 %config(noreplace) %{_sysconfdir}/modprobe.d/*.conf
 /lib/modules/%{kernel_version}/*/*.ko
 %exclude /etc/depmod.d/bnx2x.conf
 %exclude %{_mandir}/man4/*
 
 %changelog
+* Wed Mar 10 2021 Samuel Verschelde <stormi-xcp@ylix.fr> - 7.14.76-2
+- Merge the two RPMs into one for easier uninstallation
+- Obsoletes qlogic-netxtreme2-alt-4.19.0+1-modules
+
 * Thu Feb 25 2021 Samuel Verschelde <stormi-xcp@ylix.fr> - 7.14.76-1
 - Updated to version 7.14.76
 
