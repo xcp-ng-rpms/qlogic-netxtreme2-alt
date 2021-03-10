@@ -28,7 +28,6 @@ Requires: %{name}-%{modules_package} = %{version}-%{release}
 Source: %{driver_name}-%{version}.tar.gz
 
 # XCP-ng patches
-# This patch contains versioned paths and thus needs to be adapted each time
 Patch1000: qlogic-netxtreme2-7.14.69-install-into-dedicated-dir.XCP-ng.patch 
 Patch1001: qlogic-netxtreme2-Fix-NULL-pointer-dereference-in-bnx2x_del_all_vlans.backport.patch
 
