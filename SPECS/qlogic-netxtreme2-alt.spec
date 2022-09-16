@@ -19,7 +19,7 @@
 Summary: Qlogic NetXtreme II iSCSI, 1-Gigabit and 10-Gigabit ethernet drivers
 Name: %{name_orig}-alt
 Version: 7.14.76
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPL
 Group: System Environment/Kernel
 BuildRequires: kernel-devel, git
@@ -79,6 +79,9 @@ find %{buildroot}/lib/modules/%{kernel_version} -name "*.ko" -type f | xargs chm
 %exclude %{_mandir}/man4/*
 
 %changelog
+* Fri Sep 16 2022 Samuel Verschelde <stormi-xcp@ylix.fr> - 7.14.76-3
+- Rebuild for XCP-ng 8.3
+
 * Wed Mar 10 2021 Samuel Verschelde <stormi-xcp@ylix.fr> - 7.14.76-2
 - Merge the two RPMs into one for easier uninstallation
 - Obsoletes qlogic-netxtreme2-alt-4.19.0+1-modules
