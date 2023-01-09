@@ -18,8 +18,8 @@
 
 Summary: Qlogic NetXtreme II iSCSI, 1-Gigabit and 10-Gigabit ethernet drivers
 Name: %{name_orig}-alt
-Version: 7.14.76
-Release: 2%{?dist}
+Version: 7.15.10
+Release: 1%{?dist}
 License: GPL
 Group: System Environment/Kernel
 BuildRequires: kernel-devel, git
@@ -38,7 +38,7 @@ Obsoletes: qlogic-netxtreme2-alt-4.19.0+1-modules
 Source: %{driver_name}-%{version}.tar.gz
 
 # XCP-ng patches
-Patch1000: qlogic-netxtreme2-7.14.69-install-into-dedicated-dir.XCP-ng.patch 
+Patch1000: qlogic-netxtreme2-7.15.10-install-into-dedicated-dir.XCP-ng.patch 
 Patch1001: qlogic-netxtreme2-Fix-NULL-pointer-dereference-in-bnx2x_del_all_vlans.backport.patch
 
 %description
@@ -79,6 +79,10 @@ find %{buildroot}/lib/modules/%{kernel_version} -name "*.ko" -type f | xargs chm
 %exclude %{_mandir}/man4/*
 
 %changelog
+* Mon Jan 09 2023 Gael Duperrey <gduperrey@vates.fr> - 7.15.10-1
+- Update to version 7.15.10
+- Rediff qlogic-netxtreme2-7.15.10-install-into-dedicated-dir.XCP-ng.patch
+
 * Wed Mar 10 2021 Samuel Verschelde <stormi-xcp@ylix.fr> - 7.14.76-2
 - Merge the two RPMs into one for easier uninstallation
 - Obsoletes qlogic-netxtreme2-alt-4.19.0+1-modules
