@@ -1,0 +1,23 @@
+diff --git a/bnx2fc/driver/Makefile b/bnx2fc/driver/Makefile
+index 9dcfbd9..1262be7 100644
+--- a/bnx2fc/driver/Makefile
++++ b/bnx2fc/driver/Makefile
+@@ -361,16 +361,8 @@ bnx2fc_pfc:
+ 
+ bnx2fc_install:
+ 	mkdir -p $(PREFIX)/lib/modules/$(KVER)/kernel/drivers/scsi;
+-ifeq ($(DISTRO), "RHEL")
+-	mkdir -p $(PREFIX)/lib/modules/$(KVER)/extra;
+-	install -m 444 $(BCM_DRV) $(PREFIX)/lib/modules/$(KVER)/extra/;
+-else
+-	@if [ -f $(PREFIX)/lib/modules/$(KVER)/updates ] ; then echo "updates directory present" ;\
+-	else mkdir -p $(PREFIX)/lib/modules/$(KVER)/updates ;\
+-	fi
+-
+-	install -m 444 $(BCM_DRV) $(PREFIX)/lib/modules/$(KVER)/updates;
+-endif
++	mkdir -p $(PREFIX)/lib/modules/$(KVER)/override;
++	install -m 444 $(BCM_DRV) $(PREFIX)/lib/modules/$(KVER)/override;
+ 	@if [ "$(PREFIX)" = "" ]; then /sbin/depmod -a ;\
+ 	else echo " *** Run '/sbin/depmod -a' to update the module database.";\
+ 	fi

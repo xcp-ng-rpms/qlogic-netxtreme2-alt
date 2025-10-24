@@ -6,11 +6,11 @@ We have seen that it still fails on some hardware whereas the patch linked above
 
 Thus add the missing 'x' to CHIP_IS_E1[x]
 
-Index: netxtreme2-7.14.63/bnx2x/src/bnx2x_main.c
-===================================================================
---- netxtreme2-7.14.63/bnx2x/src/bnx2x_main.c
-+++ netxtreme2-7.14.63/bnx2x/src/bnx2x_main.c	2020-02-12 14:43:58.156070111 +0100
-@@ -10624,7 +10624,7 @@
+diff --git a/bnx2x-1.715.25/src/bnx2x_main.c b/bnx2x-1.715.25/src/bnx2x_main.c
+index f477caa..6b3f0e2 100644
+--- a/bnx2x/src/bnx2x_main.c
++++ b/bnx2x/src/bnx2x_main.c
+@@ -10684,7 +10684,7 @@ void bnx2x_chip_cleanup(struct bnx2x *bp, int unload_mode, bool keep_link)
  			  rc);
  
  	/* Remove all currently configured VLANs */
